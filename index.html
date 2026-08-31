@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cozy Corner — My Watch &amp; Read Diary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #FBEEDF;
+    --bg-deep: #F6E1CB;
+    --paper: #FFFBF5;
+    --paper-2: #FFF6EA;
+    --ink: #4A372C;
+    --ink-soft: #8A7565;
+    --rose: #E0637A;
+    --rose-deep: #C94D66;
+    --sage: #7E9A72;
+    --sage-deep: #62805A;
+    --gold: #E0A83E;
+    --sky: #6E9BC2;
+    --line: #EBD9C2;
+    --shadow: 0 6px 18px rgba(120, 84, 51, 0.10);
+    --shadow-soft: 0 3px 10px rgba(120, 84, 51, 0.08);
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 8% 12%, rgba(224,99,122,0.07), transparent 40%),
+      radial-gradient(circle at 92% 8%, rgba(126,154,114,0.08), transparent 38%),
+      radial-gradient(circle at 85% 85%, rgba(224,168,62,0.08), transparent 40%);
+    color: var(--ink);
+    font-family: 'Quicksand', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,h2,h3,.display{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---------- decorative floating svgs ---------- */
+  .deco{
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.9;
+    z-index: 0;
+  }
+  .deco svg{ display:block; }
+  .float-a{ animation: bob 7s ease-in-out infinite; }
+  .float-b{ animation: bob 8.5s ease-in-out infinite 0.6s; }
+  .float-c{ animation: bob 6.2s ease-in-out infinite 1.2s; }
+  @keyframes bob{
+    0%,100%{ transform: translateY(0) rotate(var(--r, 0deg)); }
+    50%{ transform: translateY(-10px) rotate(var(--r, 0deg)); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .float-a,.float-b,.float-c{ animation: none; }
+  }
+
+  /* ---------- header / hero ---------- */
+  header.hero{
+    position: relative;
+    overflow: hidden;
+    padding: 64px 24px 78px;
+    text-align: center;
+  }
+
+  .hero-inner{ position: relative; z-index: 2; max-width: 720px; margin: 0 auto; }
+
+  .kicker{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 13.5px;
+    color: var(--rose-deep);
+    background: #FFFFFF;
+    border: 1px solid #F6D3D9;
+    padding: 6px 16px 6px 12px;
+    border-radius: 999px;
+    box-shadow: var(--shadow-soft);
+    margin-bottom: 22px;
+  }
+
+  h1.title{
+    font-size: clamp(34px, 6vw, 56px);
+    line-height: 1.08;
+    margin: 0 0 14px;
+    color: var(--ink);
+  }
+  h1.title em{
+    font-style: italic;
+    color: var(--rose-deep);
+  }
+
+  .subtitle{
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin: 0 auto;
+    max-width: 520px;
+  }
+
+  .wave-divider{
+    display:block;
+    width: 100%;
+    height: 46px;
+    margin-top: 50px;
+  }
+
+  /* ---------- stats ---------- */
+  .stats-bar{
+    max-width: 880px;
+    margin: -26px auto 0;
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    padding: 0 20px;
+  }
+  .stat-pill{
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 12px 20px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    min-width: 108px;
+  }
+  .stat-pill .num{
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--rose-deep);
+    display:block;
+  }
+  .stat-pill .lbl{
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+
+  /* ---------- main / tabs ---------- */
+  main{
+    max-width: 1080px;
+    margin: 56px auto 0;
+    padding: 0 20px 90px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .tabs{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  .tab-btn{
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink-soft);
+    background: var(--paper-2);
+    border: 1.5px solid var(--line);
+    padding: 10px 22px;
+    border-radius: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform .15s ease, background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .tab-btn:hover{ transform: translateY(-2px); }
+  .tab-btn.active{
+    background: var(--rose);
+    border-color: var(--rose);
+    color: #fff;
+    box-shadow: var(--shadow);
+  }
+  .tab-btn .count{
+    background: rgba(255,255,255,0.35);
+    border-radius: 999px;
+    padding: 1px 9px;
+    font-size: 12.5px;
+  }
+  .tab-btn:not(.active) .count{
+    background: #FFFFFF;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- controls ---------- */
+  .controls{
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 16px 18px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+  .search-wrap{
+    flex: 1 1 220px;
+    position: relative;
+  }
+  .search-wrap input{
+    width: 100%;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    padding: 11px 14px 11px 38px;
+    border-radius: 12px;
+    border: 1.5px solid var(--line);
+    background: var(--paper-2);
+    color: var(--ink);
+    outline: none;
+    transition: border-color .15s ease;
+  }
+  .search-wrap input:focus{ border-color: var(--rose); }
+  .search-wrap svg{
+    position: absolute;
+    left: 12px; top: 50%; transform: translateY(-50%);
+    width: 16px; height: 16px;
+    color: var(--ink-soft);
+  }
+
+  select{
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1.5px solid var(--line);
+    background: var(--paper-2);
+    color: var(--ink);
+    outline: none;
+    cursor: pointer;
+  }
+
+  .add-btn{
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    background: var(--sage-deep);
+    border: none;
+    padding: 11px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: var(--shadow-soft);
+    transition: transform .15s ease;
+  }
+  .add-btn:hover{ transform: translateY(-2px); }
+
+  .poster-settings-btn{
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--ink-soft);
+    background: var(--paper-2);
+    border: 1.5px solid var(--line);
+    padding: 10px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform .15s ease, border-color .2s ease, color .2s ease;
+  }
+  .poster-settings-btn:hover{ transform: translateY(-2px); }
+  .poster-settings-btn.connected{ border-color: var(--sage-deep); color: var(--sage-deep); }
+
+  /* ---------- grid & cards ---------- */
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+    gap: 18px;
+  }
+
+  .card{
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 18px 18px 16px;
+    box-shadow: var(--shadow-soft);
+    transition: transform .18s ease, box-shadow .18s ease;
+    cursor: pointer;
+  }
+  .card:hover{
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+  }
+  .tape{
+    position: absolute;
+    top: -10px; left: 22px;
+    width: 52px; height: 20px;
+    background: repeating-linear-gradient(45deg, rgba(255,255,255,0.5) 0 4px, transparent 4px 8px), var(--tape-color, var(--rose));
+    opacity: 0.85;
+    transform: rotate(-4deg);
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  }
+
+  .card-body{
+    display:flex;
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+  .poster-wrap{
+    flex: 0 0 74px;
+    width: 74px;
+    height: 106px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--paper-2);
+    border: 3px solid #fff;
+    box-shadow: 0 3px 8px rgba(120,84,51,0.14);
+    transform: rotate(-2deg);
+    position: relative;
+    flex-shrink: 0;
+  }
+  .poster-wrap img{
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0;
+    transition: opacity .35s ease;
+  }
+  .poster-wrap img.loaded{ opacity: 1; }
+  .poster-placeholder{
+    width: 100%; height: 100%;
+    display:flex; align-items:center; justify-content:center;
+    background: linear-gradient(160deg, var(--ph-a, #F3D9DE), var(--ph-b, #F8E9D6));
+  }
+  .poster-placeholder svg{ opacity: 0.75; }
+  .poster-wrap.shimmer .poster-placeholder{
+    background: linear-gradient(100deg, var(--ph-a, #F3D9DE) 30%, #fff 50%, var(--ph-a, #F3D9DE) 70%);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s ease-in-out infinite;
+  }
+  @keyframes shimmer{
+    0%{ background-position: 200% 0; }
+    100%{ background-position: -200% 0; }
+  }
+
+  .card-main{ flex: 1; min-width: 0; }
+
+  .card-top{
+    display:flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .card h3{
+    font-size: 17px;
+    line-height: 1.32;
+    margin: 0;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .badge{
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+    font-family: 'Quicksand', sans-serif;
+  }
+  .badge.Completed{ background:#E7F1E2; color: var(--sage-deep); }
+  .badge.Ongoing{ background:#E4EEF7; color: #3E6E96; }
+  .badge.Pending{ background:#FBF0DA; color: #A87A1E; }
+  .badge.OnHold{ background:#F3E5F7; color: #8A509C; }
+  .badge.Dropped{ background:#FBE3E3; color: #B4453F; }
+  .badge.Read{ background:#E7F1E2; color: var(--sage-deep); }
+  .badge.Unread{ background:#F1EBE3; color: var(--ink-soft); }
+
+  .meta-row{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    margin: 10px 0 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-weight: 600;
+  }
+  .meta-row span{ display:flex; align-items:center; gap:4px; }
+
+  .rate-row{
+    display:flex;
+    align-items:center;
+    gap: 6px;
+    margin: 6px 0 10px;
+  }
+  .rate-row .star{ color: var(--gold); font-size: 15px; }
+  .rate-row .rate-num{
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .rate-row .rate-max{ font-size: 12px; color: var(--ink-soft); }
+  .rate-row.empty{ color: var(--ink-soft); font-size: 13px; font-style: italic; }
+
+  .comment{
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin: 12px 0 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .comment.empty{ font-style: italic; opacity: 0.7; }
+
+  .card-foot{
+    margin-top: 12px;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+  }
+  .link-chip{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--sky);
+    text-decoration: none;
+    display:flex; align-items:center; gap:4px;
+  }
+  .edit-hint{
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    opacity: 0.65;
+  }
+
+  .empty-state{
+    text-align:center;
+    padding: 60px 20px;
+    color: var(--ink-soft);
+  }
+  .empty-state svg{ margin-bottom: 14px; }
+
+  /* ---------- modal ---------- */
+  .modal-overlay{
+    position: fixed; inset:0;
+    background: rgba(74,55,44,0.35);
+    backdrop-filter: blur(2px);
+    display:flex; align-items:center; justify-content:center;
+    padding: 20px;
+    z-index: 50;
+    opacity:0; pointer-events:none;
+    transition: opacity .18s ease;
+  }
+  .modal-overlay.open{ opacity:1; pointer-events:auto; }
+
+  .modal{
+    background: var(--paper);
+    border-radius: 22px;
+    max-width: 440px;
+    width: 100%;
+    max-height: 86vh;
+    overflow-y: auto;
+    padding: 26px 26px 22px;
+    box-shadow: 0 20px 50px rgba(74,55,44,0.25);
+    transform: translateY(14px) scale(0.98);
+    transition: transform .18s ease;
+    position: relative;
+  }
+  .modal-overlay.open .modal{ transform: translateY(0) scale(1); }
+
+  .modal h2{
+    font-size: 21px;
+    margin: 4px 0 4px;
+    padding-right: 30px;
+  }
+  .modal .modal-sub{
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+
+  .modal-close{
+    position: absolute; top: 18px; right: 18px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    width: 30px; height: 30px;
+    border-radius: 999px;
+    cursor: pointer;
+    display:flex; align-items:center; justify-content:center;
+    color: var(--ink-soft);
+  }
+
+  .field{ margin-bottom: 14px; }
+  .field label{
+    display:block;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 6px;
+  }
+  .field input[type=text], .field input[type=number], .field textarea, .field select{
+    width: 100%;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14.5px;
+    padding: 10px 12px;
+    border-radius: 11px;
+    border: 1.5px solid var(--line);
+    background: var(--paper-2);
+    color: var(--ink);
+    outline: none;
+    resize: vertical;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus{ border-color: var(--rose); }
+  .field-row{ display:flex; gap: 12px; }
+  .field-row .field{ flex:1; }
+
+  .link-input-row{ display:flex; gap: 8px; }
+  .link-input-row input{ flex:1; }
+  .link-open-btn{
+    flex-shrink: 0;
+    width: 42px;
+    border-radius: 11px;
+    border: 1.5px solid var(--line);
+    background: var(--paper-2);
+    color: var(--sky);
+    cursor: pointer;
+    display:flex; align-items:center; justify-content:center;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .link-open-btn:hover{ background: #E4EEF7; border-color: var(--sky); }
+  .link-open-btn:disabled{ opacity: 0.4; cursor: not-allowed; }
+
+  .modal-actions{
+    display:flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .settings-hint{
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .settings-hint a{ color: var(--rose-deep); font-weight: 700; text-decoration: none; }
+  .settings-hint a:hover{ text-decoration: underline; }
+  .btn{
+    flex:1;
+    font-family:'Quicksand',sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+  .btn:hover{ transform: translateY(-1px); }
+  .btn.primary{ background: var(--rose); color:#fff; }
+  .btn.ghost{ background: var(--paper-2); color: var(--ink-soft); border: 1.5px solid var(--line); }
+  .btn.danger{ background: #FBE3E3; color: #B4453F; }
+
+  footer{
+    text-align:center;
+    padding: 30px 20px 50px;
+    color: var(--ink-soft);
+    font-size: 12.5px;
+  }
+
+  @media (max-width: 560px){
+    header.hero{ padding: 48px 18px 64px; }
+    .stats-bar{ gap: 10px; }
+    .stat-pill{ min-width: 88px; padding: 10px 14px; }
+    main{ margin-top: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <!-- decorative floating elements -->
+  <div class="deco float-a" style="top:14%; left:6%; --r:-8deg;">
+    <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+      <g>
+        <ellipse cx="23" cy="12" rx="8" ry="10" fill="#EFA0AE" opacity="0.85" transform="rotate(0 23 12)"/>
+        <ellipse cx="23" cy="12" rx="8" ry="10" fill="#EFA0AE" opacity="0.85" transform="rotate(72 23 23)"/>
+        <ellipse cx="23" cy="12" rx="8" ry="10" fill="#EFA0AE" opacity="0.85" transform="rotate(144 23 23)"/>
+        <ellipse cx="23" cy="12" rx="8" ry="10" fill="#EFA0AE" opacity="0.85" transform="rotate(216 23 23)"/>
+        <ellipse cx="23" cy="12" rx="8" ry="10" fill="#EFA0AE" opacity="0.85" transform="rotate(288 23 23)"/>
+        <circle cx="23" cy="23" r="6" fill="#E0A83E"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="deco float-b" style="top:10%; right:8%; --r:10deg;">
+    <svg width="58" height="42" viewBox="0 0 58 42" fill="none">
+      <path d="M6 40 L12 12 C12 12 8 6 14 4 C18 3 20 8 20 8 C20 8 21 2 27 3 C32 4 31 10 31 10 C31 10 35 5 39 9 C43 13 38 17 38 17 L30 40 Z" fill="#FFF9F0" stroke="#E0A83E" stroke-width="1.5" stroke-linejoin="round"/>
+      <line x1="12" y1="40" x2="34" y2="40" stroke="#E0A83E" stroke-width="1.5"/>
+      <line x1="14" y1="34" x2="32" y2="34" stroke="#F3D9A0" stroke-width="1"/>
+      <line x1="13" y1="27" x2="31" y2="27" stroke="#F3D9A0" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <div class="deco float-c" style="bottom:6%; left:12%; --r:-6deg;">
+    <svg width="50" height="42" viewBox="0 0 50 42" fill="none">
+      <rect x="4" y="6" width="18" height="30" rx="2" fill="#7E9A72" transform="rotate(-8 13 21)"/>
+      <rect x="26" y="4" width="18" height="32" rx="2" fill="#E0637A" transform="rotate(6 35 20)"/>
+      <rect x="16" y="2" width="18" height="34" rx="2" fill="#FFF9F0" stroke="#E5C9A8" stroke-width="1.4"/>
+      <line x1="25" y1="6" x2="25" y2="32" stroke="#E5C9A8" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <div class="deco float-a" style="bottom:10%; right:10%; --r:12deg;">
+    <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+      <circle cx="22" cy="22" r="19" fill="#FFF9F0" stroke="#6E9BC2" stroke-width="1.6"/>
+      <circle cx="22" cy="22" r="6" fill="#6E9BC2" opacity="0.25"/>
+      <circle cx="14" cy="14" r="3.2" fill="#6E9BC2" opacity="0.5"/>
+      <circle cx="30" cy="14" r="3.2" fill="#6E9BC2" opacity="0.5"/>
+      <circle cx="14" cy="30" r="3.2" fill="#6E9BC2" opacity="0.5"/>
+      <circle cx="30" cy="30" r="3.2" fill="#6E9BC2" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <div class="hero-inner">
+    <span class="kicker">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.5-4.6-10-9.3C.4 8.1 2 4.5 5.7 4c2.2-.3 4 1 6.3 3 2.3-2 4.1-3.3 6.3-3 3.7.5 5.3 4.1 3.7 7.7C19.5 16.4 12 21 12 21z" fill="#E0637A"/></svg>
+      a little diary of stories loved
+    </span>
+    <h1 class="title">Cozy Corner: my <em>watch</em> &amp; <em>read</em> shelf</h1>
+    <p class="subtitle">Every drama I binged, every movie that made me cry, every book I couldn't put down — all tucked into one warm little archive.</p>
+  </div>
+
+  <svg class="wave-divider" viewBox="0 0 1200 60" preserveAspectRatio="none">
+    <path d="M0,30 C150,60 350,0 600,30 C850,60 1050,0 1200,30 L1200,60 L0,60 Z" fill="var(--paper)"></path>
+  </svg>
+</header>
+
+<div class="stats-bar" id="statsBar"></div>
+
+<main>
+  <div class="tabs" id="tabs">
+    <button class="tab-btn" data-tab="series">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 3v2M16 3v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      Series <span class="count" id="count-series">0</span>
+    </button>
+    <button class="tab-btn" data-tab="movie">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 8h16M8 4v4M14 4v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="3" y="4" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2"/></svg>
+      Movies <span class="count" id="count-movie">0</span>
+    </button>
+    <button class="tab-btn" data-tab="books">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 016.5 17H20V4H6.5A2.5 2.5 0 004 6.5v13z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M4 19.5A2.5 2.5 0 016.5 22H20" stroke="currentColor" stroke-width="2"/></svg>
+      Books <span class="count" id="count-books">0</span>
+    </button>
+  </div>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input type="text" id="searchInput" placeholder="Search by title, country, author…">
+    </div>
+    <select id="statusFilter"></select>
+    <select id="sortSelect">
+      <option value="idAsc">Order added</option>
+      <option value="titleAsc">Title A–Z</option>
+      <option value="rateDesc">Highest rated</option>
+      <option value="rateAsc">Lowest rated</option>
+      <option value="yearDesc">Newest year</option>
+      <option value="yearAsc">Oldest year</option>
+    </select>
+    <button class="add-btn" id="addBtn">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="white" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Add entry
+    </button>
+    <button class="poster-settings-btn" id="posterSettingsBtn" type="button">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" stroke="currentColor" stroke-width="1.6"/></svg>
+      <span id="posterStatusLabel">Posters</span>
+    </button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <svg width="52" height="52" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="#C9B8A6" stroke-width="1.6"/><path d="M21 21l-4-4" stroke="#C9B8A6" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <p>Nothing matches your search yet — try a different word or filter.</p>
+  </div>
+</main>
+
+
+<footer>made with tea, popcorn, and a little too much scrolling 🍵</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <h2 id="modalTitle">Edit entry</h2>
+    <div class="modal-sub" id="modalSub"></div>
+    <form id="entryForm">
+      <input type="hidden" id="f-id">
+      <input type="hidden" id="f-type">
+      <div class="field" id="field-title">
+        <label>Title</label>
+        <input type="text" id="f-title" required>
+      </div>
+      <div class="field-row" id="field-yearcountry">
+        <div class="field">
+          <label id="label-year">Year</label>
+          <input type="text" id="f-year">
+        </div>
+        <div class="field">
+          <label id="label-country">Country</label>
+          <input type="text" id="f-country">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Status</label>
+          <select id="f-status"></select>
+        </div>
+        <div class="field">
+          <label>Rate (out of 10)</label>
+          <input type="number" id="f-rate" min="0" max="10" step="0.1" placeholder="—">
+        </div>
+      </div>
+      <div class="field">
+        <label>Comment</label>
+        <textarea id="f-comment" rows="3" placeholder="Your thoughts…"></textarea>
+      </div>
+      <div class="field" id="field-link">
+        <label>Link (optional)</label>
+        <div class="link-input-row">
+          <input type="text" id="f-link" placeholder="https://…">
+          <button type="button" class="link-open-btn" id="linkOpenBtn" title="Open this link">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M14 4h6v6M20 4L10 14M18 13v5a2 2 0 01-2 2H6a2 2 0 01-2-2V8a2 2 0 012-2h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn danger" id="deleteBtn" style="display:none;">Delete</button>
+        <button type="button" class="btn ghost" id="cancelBtn">Cancel</button>
+        <button type="submit" class="btn primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="settingsOverlay">
+  <div class="modal">
+    <button class="modal-close" id="settingsClose" type="button">✕</button>
+    <h2>Poster settings</h2>
+    <div class="modal-sub">Series & movie posters use TMDB when connected. Books use Open Library, and Wikipedia is the fallback for anything else.</div>
+    <div class="field">
+      <label>TMDB API key (free)</label>
+      <input type="text" id="tmdbKeyInput" placeholder="Paste your key here" autocomplete="off">
+    </div>
+    <p class="settings-hint">
+      Don't have one? Create a free account at
+      <a href="https://www.themoviedb.org/signup" target="_blank" rel="noopener">themoviedb.org</a>,
+      then grab your "API Key (v3 auth)" from
+      <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noopener">Settings → API</a>.
+      Your key is only stored on this device, never sent anywhere else.
+    </p>
+    <div class="modal-actions">
+      <button type="button" class="btn danger" id="clearKeyBtn">Remove key</button>
+      <button type="button" class="btn ghost" id="settingsCancelBtn">Close</button>
+      <button type="button" class="btn primary" id="saveKeyBtn">Save & refresh posters</button>
+    </div>
+  </div>
+</div>
+
+<script id="seed-data" type="application/json">
+{"series": [{"id": 1, "title": "Sunshine After Smoke Blue Rain （雾蓝色的雨后晴天）", "year": 2026, "country": "Japan", "status": "Completed", "rate": 9, "comment": "完的好突然。还没看饱没有了", "link": null}, {"id": 2, "title": "Love Upon a time series (隔世相逢)", "year": 2026, "country": "Thai", "status": "Completed", "rate": 10, "comment": "So Good.. Its literaly completed story. Love it!!!", "link": "https://www.dailymotion.com/video/xahkbee"}, {"id": 3, "title": "Sotus the series", "year": 2016, "country": "Thai", "status": "Completed", "rate": 9, "comment": "Kongpop always love Artit", "link": null}, {"id": 4, "title": "Sotus S - Season 2", "year": 2017, "country": "Thai", "status": "Completed", "rate": 9, "comment": null, "link": null}, {"id": 5, "title": "Together with me", "year": 2017, "country": "Thai", "status": "Completed", "rate": 9, "comment": null, "link": null}, {"id": 6, "title": "Water boy", "year": 2017, "country": "Thai", "status": "Completed", "rate": 6, "comment": "ok la, blh je", "link": null}, {"id": 7, "title": "What the Duck the series", "year": 2018, "country": "Thai", "status": "Completed", "rate": 4, "comment": null, "link": null}, {"id": 8, "title": "History2: Right or Wrong", "year": 2018, "country": "Taiwan", "status": "Completed", "rate": 8, "comment": "Teacher & Student love.. damnnnn", "link": null}, {"id": 9, "title": "Histrory2: Crossing the line (越界)", "year": 2018, "country": "Taiwan", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 10, "title": "The Novelist", "year": 2018, "country": "Japan", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 11, "title": "Together with Me: The next chapter", "year": 2018, "country": "Thai", "status": "Completed", "rate": 8, "comment": "Moral of the story: when u leaving someone, pls dont use his credit card to pay hotel billlllllllll", "link": null}, {"id": 12, "title": "Our sky", "year": 2018, "country": "Thai", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 13, "title": "Bad Romance", "year": 2016, "country": "Thai", "status": "Completed", "rate": 6, "comment": null, "link": null}, {"id": 14, "title": "History: Obsessed", "year": 2017, "country": "Taiwan", "status": "Completed", "rate": 8, "comment": "Obsessed indeed", "link": null}, {"id": 15, "title": "2 Moons", "year": 2017, "country": "Thai", "status": "Completed", "rate": 5, "comment": null, "link": null}, {"id": 16, "title": "Red Balloon", "year": 2017, "country": "Taiwan", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 17, "title": "Dark Blue and Moonlight Special", "year": 2017, "country": "Taiwan", "status": "Completed", "rate": 8, "comment": "Where is my S2 !!!", "link": null}, {"id": 18, "title": "TharnType the series", "year": 2019, "country": "Thai", "status": "Completed", "rate": 10, "comment": "LOVE ITTTTTT!!! MEW IS SO HANDSOMEEEE", "link": null}, {"id": 19, "title": "Dark Blue Kiss", "year": 2019, "country": "Thai", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 20, "title": "Histrory3: Trapped (圈套)", "year": 2019, "country": "Taiwan", "status": "Completed", "rate": 9, "comment": "Stand wrong side.. but love the chemistry of a police and mafia boss", "link": null}, {"id": 21, "title": "Histiry3: Make Our Days Count (那一天)", "year": 2019, "country": "Taiwan", "status": "Completed", "rate": 7, "comment": "Damn sad ending xia. The only on", "link": null}, {"id": 22, "title": "2 Moons 2", "year": 2019, "country": "Thai", "status": "Completed", "rate": 4, "comment": "They change the main Character. The other one is not good looking tho.", "link": null}, {"id": 23, "title": "2gether", "year": 2020, "country": "Thai", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 24, "title": "Still 2gether", "year": 2020, "country": "Thai", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 25, "title": "A Tale of Thousand Stars", "year": 2021, "country": "Thai", "status": "Completed", "rate": 9, "comment": "Monak is so Handsome. Fuck the chemistry", "link": null}, {"id": 26, "title": "Gen Y", "year": 2020, "country": "Thai", "status": "Completed", "rate": 9, "comment": "Kit is so cuteeeee", "link": null}, {"id": 27, "title": "Gen Y Season 2", "year": 2021, "country": "Thai", "status": "Completed", "rate": 9, "comment": "This series never dissapoint", "link": null}, {"id": 28, "title": "I told sunset about you", "year": 2020, "country": "Thai", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 29, "title": "Manner of Death", "year": 2020, "country": "Thai", "status": "Completed", "rate": 6, "comment": "Like the both actor but the series abit.. not my kind of tea", "link": null}, {"id": 30, "title": "My Gear and Your Gown", "year": 2020, "country": "Thai", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 31, "title": "Oxygen", "year": 2020, "country": "Thai", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 32, "title": "TharnType the series 2: 7 Years of Love", "year": 2020, "country": "Thai", "status": "Completed", "rate": 9, "comment": "The fight very hurt thoooo", "link": null}, {"id": 33, "title": "Bad Buddy", "year": 2021, "country": "Thai", "status": "Completed", "rate": 7, "comment": "Neighbour ehhh", "link": null}, {"id": 34, "title": "Baker Boys", "year": 2021, "country": "Thai", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 35, "title": "Bite me", "year": 2021, "country": "Thai", "status": "Completed", "rate": 6, "comment": null, "link": null}, {"id": 36, "title": "Enchante", "year": 2022, "country": "Thai", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 37, "title": "Love Sick", "year": 2014, "country": "Thai", "status": "Completed", "rate": 3, "comment": null, "link": null}, {"id": 38, "title": "Love in the Air", "year": 2022, "country": "Thai", "status": "Completed", "rate": 8, "comment": "Love the 2nd pairs more", "link": null}, {"id": 39, "title": "My Boy", "year": 2021, "country": "Thai", "status": "Completed", "rate": 7, "comment": "Ehhh the chemistry is ok.. juz the.. mmmmm.. person la ho", "link": null}, {"id": 40, "title": "My Secrect love", "year": 2022, "country": "Thai", "status": "Completed", "rate": 6, "comment": null, "link": null}, {"id": 41, "title": "The Miracle of Teddy Bear", "year": 2022, "country": "Thai", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 42, "title": "The Tuxedo", "year": 2022, "country": "Thai", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 43, "title": "Something in My Room", "year": 2022, "country": "Thai", "status": "Completed", "rate": 7.5, "comment": null, "link": null}, {"id": 44, "title": "La Cuisine", "year": 2022, "country": "Thai", "status": "Completed", "rate": 5, "comment": null, "link": null}, {"id": 45, "title": "I Feel You Linger in the Air", "year": 2023, "country": "Thai", "status": "Completed", "rate": 10, "comment": "LOVE ITTTTTTTTTT~~~~", "link": null}, {"id": 46, "title": "Cupid's Last wish", "year": 2022, "country": "Thai", "status": "Completed", "rate": 9, "comment": "After the Tale of Thousand Stars. The heart make him in love", "link": null}, {"id": 47, "title": "Last Twilight", "year": 2023, "country": "Thai", "status": "Completed", "rate": 10, "comment": "P'Mok!!!!", "link": null}, {"id": 48, "title": "Cherry Magic", "year": 2023, "country": "Thai", "status": "Completed", "rate": 10, "comment": "Better than the Ori - Japan", "link": null}, {"id": 49, "title": "A Boss and a Babe", "year": 2023, "country": "Thai", "status": "Completed", "rate": 4, "comment": "Not my cup of series", "link": null}, {"id": 50, "title": "Dangerous Romance", "year": 2023, "country": "Thai", "status": "Completed", "rate": 6, "comment": null, "link": null}, {"id": 51, "title": "Love in the Air: Special Edition", "year": 2022, "country": "Thai", "status": "Completed", "rate": 8, "comment": "Sill same, love the second couples", "link": null}, {"id": 52, "title": "La Pluie", "year": 2023, "country": "Thai", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 53, "title": "Pit Babe", "year": 2023, "country": "Thai", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 54, "title": "My Universe", "year": 2023, "country": "Thai", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 55, "title": "We are the series", "year": 2024, "country": "Thai", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 56, "title": "Love Sea the series", "year": 2024, "country": "Thai", "status": "Completed", "rate": 10, "comment": "OMGGGGG", "link": null}, {"id": 57, "title": "My Dear Ganster Oppa", "year": 2023, "country": "Thai", "status": "Completed", "rate": 5, "comment": null, "link": null}, {"id": 58, "title": "My Golden Blood", "year": 2025, "country": "Thai", "status": "Completed", "rate": 7, "comment": "In the end vampire indeed become, and rich tooo", "link": null}, {"id": 59, "title": "Ossan's Love Thailand", "year": 2025, "country": "Thai", "status": "Completed", "rate": 9, "comment": "I love how they find these two to act. HAHAHHAH better than japan one tooo", "link": null}, {"id": 60, "title": "Wandee Goodday", "year": 2024, "country": "Thai", "status": "Completed", "rate": 10, "comment": "THIS ONE IS CRAZYY", "link": null}, {"id": 61, "title": "1000 Years Old", "year": 2024, "country": "Thai", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 62, "title": "My Stand-In", "year": 2024, "country": "Thai", "status": "Completed", "rate": 9, "comment": "Sad and obsessive", "link": null}, {"id": 63, "title": "Shine", "year": 2025, "country": "Thai", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 64, "title": "Century of Love", "year": 2024, "country": "Thai", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 65, "title": "The Ex-Morning", "year": 2025, "country": "Thai", "status": "Completed", "rate": 9, "comment": "Yess pls, kongpop and artit is backkkk baby", "link": null}, {"id": 66, "title": "My Sweetheart Jom", "year": 2025, "country": "Thai", "status": "Completed", "rate": 9, "comment": "PURRRR", "link": null}, {"id": 67, "title": "Reset", "year": 2025, "country": "Thai", "status": "Completed", "rate": 10, "comment": "Donno how to say, but back in life to revenge and in-love", "link": null}, {"id": 68, "title": "My Magic Prophecy (我的魔法预言)", "year": 2025, "country": "Thai", "status": "Completed", "rate": 10, "comment": "I Love it!!! Last twilight actor", "link": null}, {"id": 69, "title": "Memoir of Rati", "year": 2025, "country": "Thai", "status": "Completed", "rate": 10, "comment": null, "link": null}, {"id": 70, "title": "Me and Thee", "year": 2025, "country": "Thai", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 71, "title": "KinnPorche the series", "year": 2022, "country": "Thai", "status": "Completed", "rate": 10, "comment": null, "link": null}, {"id": 72, "title": "Love of Silom （爱在是隆）", "year": 2026, "country": "Thai", "status": "Completed", "rate": 4, "comment": "Not my cup of tea", "link": null}, {"id": 73, "title": "Impression of Youth", "year": 2025, "country": "Taiwan", "status": "Completed", "rate": 6, "comment": null, "link": null}, {"id": 74, "title": "Eternal Butler", "year": 2024, "country": "Taiwan", "status": "Completed", "rate": 10, "comment": "I like the Main Character", "link": null}, {"id": 75, "title": "See your Love", "year": 2024, "country": "Taiwan", "status": "Completed", "rate": 9, "comment": "Pure Love weh", "link": null}, {"id": 76, "title": "The On1y One", "year": 2024, "country": "Taiwan", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 77, "title": "Unknown", "year": 2024, "country": "Taiwan", "status": "Completed", "rate": 9, "comment": "Brother -> Lover", "link": null}, {"id": 78, "title": "Kiseki", "year": 2023, "country": "Taiwan", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 79, "title": "Stand by My side", "year": 2023, "country": "Taiwan", "status": "Completed", "rate": 4.5, "comment": null, "link": null}, {"id": 80, "title": "History5: Love in the Future (遇见未来的你)", "year": 2022, "country": "Taiwan", "status": "Completed", "rate": 4.5, "comment": "HIStory 3 and 4 better", "link": null}, {"id": 81, "title": "My Tooth Your Love (我的牙，很想你)", "year": 2022, "country": "Taiwan", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 82, "title": "Plus & Minus （正负之间）", "year": 2022, "country": "Taiwan", "status": "Completed", "rate": 10, "comment": null, "link": null}, {"id": 83, "title": "Be Loved in House: I Do (约定)", "year": 2021, "country": "Taiwan", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 84, "title": "History4: Close to you", "year": 2021, "country": "Taiwan", "status": "Completed", "rate": 10, "comment": "I love the brother Loveeeeee", "link": null}, {"id": 85, "title": "We Best Love: No.1 For you", "year": 2021, "country": "Taiwan", "status": "Completed", "rate": 10, "comment": null, "link": null}, {"id": 86, "title": "We Best Love: Fighting Mr.2nd", "year": 2021, "country": "Taiwan", "status": "Completed", "rate": 10, "comment": null, "link": null}, {"id": 87, "title": "Because of You（因为爱你）", "year": 2020, "country": "Taiwan", "status": "Completed", "rate": 7, "comment": "HMMM interesting chemistry (Korean+Taiwanese)", "link": null}, {"id": 88, "title": "Dear Ex （谁先爱上他）", "year": 2018, "country": "Taiwan", "status": "Completed", "rate": 7, "comment": "Interesting story", "link": null}, {"id": 89, "title": "Happy Together", "year": 2015, "country": "Taiwan", "status": "Completed", "rate": 3, "comment": "I think is my 2nd series when I start watch BL", "link": null}, {"id": 90, "title": "10 Dance", "year": 2025, "country": "Japan", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 91, "title": "Love is a Poisan", "year": 2024, "country": "Japan", "status": "Completed", "rate": 5, "comment": null, "link": null}, {"id": 92, "title": "Ossan's Love Returns", "year": 2024, "country": "Japan", "status": "Completed", "rate": 8, "comment": "Funny", "link": null}, {"id": 93, "title": "What Did You Eat Yesterday", "year": 2023, "country": "Japan", "status": "Completed", "rate": 7, "comment": "Best when eating - Chill", "link": null}, {"id": 94, "title": "What Did You Eat Yesterday? Season 2", "year": 2023, "country": "Japan", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 95, "title": "Minato Shouji Coin Laundry Season 2", "year": 2023, "country": "Japan", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 96, "title": "Our Dining Table Spin Off", "year": 2023, "country": "Japan", "status": "Completed", "rate": 9, "comment": "Manga better NAHAHAHH", "link": null}, {"id": 97, "title": "Minato's Laundromat", "year": 2022, "country": "Japan", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 98, "title": "Old Fashion Cupcake", "year": 2022, "country": "Japan", "status": "Completed", "rate": 10, "comment": null, "link": null}, {"id": 99, "title": "Cherry Magic! Thirty Years of Virginity Can Mae You a Wizards?!", "year": 2020, "country": "Japan", "status": "Completed", "rate": 9.5, "comment": "Feel Like missing something (probably the kissing scene)", "link": null}, {"id": 100, "title": "Ossan's Love: In the Sky Special", "year": 2019, "country": "Japan", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 101, "title": "Ossan's Love: In the Sky", "year": 2019, "country": "Japan", "status": "Completed", "rate": 7.5, "comment": null, "link": null}, {"id": 102, "title": "Ossan's Love: LOVE or DEAD", "year": 2019, "country": "Japan", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 103, "title": "Mood Indigo", "year": 2019, "country": "Japan", "status": "Completed", "rate": 7, "comment": "The sex.. ok lah", "link": null}, {"id": 104, "title": "Ossan's Love", "year": 2018, "country": "Japan", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 105, "title": "Ossan's Love", "year": 2016, "country": "Japan", "status": "Completed", "rate": 7, "comment": "Very Funny HAHAHHHA", "link": null}, {"id": 106, "title": "Takumi-Kun Series 1-5", "year": "2007-2011", "country": "Japan", "status": "Completed", "rate": 9, "comment": "OMGGGG MY FAVOUR WHEN I YOUNG hahhha.. WHEN internet is bad as shitttt", "link": null}, {"id": 107, "title": "Where Your Eyes Linger", "year": 2020, "country": "Korea", "status": "Completed", "rate": 6, "comment": null, "link": null}, {"id": 108, "title": "Color Rush", "year": 2020, "country": "Korea", "status": "Completed", "rate": 6.5, "comment": null, "link": null}, {"id": 109, "title": "You Make Me Dance", "year": 2021, "country": "Korea", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 110, "title": "Nobleman Ryu's Wedding", "year": 2021, "country": "Korea", "status": "Completed", "rate": 5.5, "comment": null, "link": null}, {"id": 111, "title": "Color Rush Season 2", "year": 2022, "country": "Korea", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 112, "title": "My Sweet Dear (美味罗曼史)", "year": 2021, "country": "Korea", "status": "Completed", "rate": 3, "comment": null, "link": null}, {"id": 113, "title": "Tinted With You", "year": 2021, "country": "Korea", "status": "Completed", "rate": 5, "comment": null, "link": null}, {"id": 114, "title": "Bon Appetit", "year": 2023, "country": "Korea", "status": "Completed", "rate": 9, "comment": null, "link": null}, {"id": 115, "title": "Behind Cut", "year": 2021, "country": "Korea", "status": "Completed", "rate": 4, "comment": null, "link": null}, {"id": 116, "title": "Jun & Jun", "year": 2023, "country": "Korea", "status": "Completed", "rate": 7, "comment": null, "link": null}, {"id": 117, "title": "Love is like a Cat", "year": 2024, "country": "Korea", "status": "Completed", "rate": 4, "comment": "Although is Mew play in this series. But no good la", "link": null}, {"id": 118, "title": "Jazz For Two", "year": 2024, "country": "Korea", "status": "Completed", "rate": 7.8, "comment": null, "link": null}, {"id": 119, "title": "Let Free the Curse of Taekwondo", "year": 2024, "country": "Korea", "status": "Completed", "rate": 8.2, "comment": null, "link": null}, {"id": 120, "title": "Heart Stain", "year": 2025, "country": "Korea", "status": "Completed", "rate": 7.2, "comment": null, "link": null}, {"id": 121, "title": "Sweetheart Service", "year": 2025, "country": "Korea", "status": "Completed", "rate": 8.7, "comment": null, "link": null}, {"id": 122, "title": "Ossan's Love (HongKong)", "year": 2021, "country": "China", "status": "Completed", "rate": 8.7, "comment": "Funny too. Quite weird when the Ojisan is played by the HK actor you known in TVB", "link": null}, {"id": 123, "title": "Addicted (上瘾)", "year": 2016, "country": "China", "status": "Completed", "rate": 7.8, "comment": "The ending wehhh.. where is season 2 (read book je la)", "link": null}, {"id": 124, "title": "Like Love (类似爱情)", "year": 2014, "country": "China", "status": "Completed", "rate": 10, "comment": "MY FIRST EVER BL SERIES", "link": null}, {"id": 125, "title": "Advance Bravely (盛势)", "year": 2017, "country": "China", "status": "Completed", "rate": 7, "comment": "I always cant watch the full version. Donno why weh.. mesti missing some part", "link": null}, {"id": 126, "title": "他在你身边", "year": 2014, "country": "China", "status": "Completed", "rate": 8, "comment": "哭死，他死了！", "link": null}, {"id": 127, "title": "I love you as a Man (类似爱情：只有我知)", "year": 2015, "country": "China", "status": "Completed", "rate": 8.4, "comment": null, "link": null}, {"id": 128, "title": "Beloved Enemy", "year": 2017, "country": "China", "status": "Completed", "rate": 4, "comment": "Manga and Novel will be better", "link": null}, {"id": 129, "title": "Irresistible Love: Secret of the Valet(不可抗力)", "year": 2016, "country": "China", "status": "Completed", "rate": 7, "comment": "太虐了", "link": null}, {"id": 130, "title": "Irresistible Love 2", "year": 2016, "country": "China", "status": "Completed", "rate": 6, "comment": null, "link": null}, {"id": 131, "title": "ABO Desire （垂涎）", "year": 2025, "country": "China", "status": "Completed", "rate": 4.5, "comment": null, "link": null}, {"id": 132, "title": "Check Out (恋恋北极星)", "year": 2026, "country": "Thai", "status": "Completed", "rate": 6.7, "comment": null, "link": null}, {"id": 133, "title": "Paint with Love (为爱上色)", "year": 2025, "country": "Thai", "status": "Completed", "rate": 8.8, "comment": null, "link": null}, {"id": 134, "title": "Always Meet Again", "year": 2026, "country": "Korea", "status": "Pending", "rate": null, "comment": null, "link": null}, {"id": 135, "title": "Journey with you (与君同)", "year": 2026, "country": "China", "status": "Completed", "rate": 1, "comment": "watch half oni.. China still need to work on it", "link": null}, {"id": 136, "title": "Love After Addiction (许你十年)", "year": 2026, "country": "China", "status": "Pending", "rate": null, "comment": null, "link": null}, {"id": 137, "title": "Kateikyoshi no Kishi Knight desu (我是家庭教师岸骑士)", "year": 2026, "country": "Japan", "status": "Completed", "rate": 9.5, "comment": "The Ending legit give me a \"WHAT THE FUCKKKKK\"", "link": null}, {"id": 138, "title": "Feel what you feel (你的心事映在我的眉间)", "year": 2026, "country": "China", "status": "Pending", "rate": null, "comment": null, "link": null}, {"id": 139, "title": "Wishing Upon the Shooting Star (向流星许愿的我们)", "year": 2026, "country": "Taiwan", "status": "Pending", "rate": null, "comment": null, "link": null}, {"id": 140, "title": "Sammy's Children's Day (初三的六一儿童节) -HK", "year": 2026, "country": "Hong Kong", "status": "Pending", "rate": null, "comment": null, "link": null}, {"id": 141, "title": "Police in Love (亲爱的警官)", "year": 2026, "country": "Thai", "status": "Pending", "rate": null, "comment": "Not Yet Stream", "link": null}, {"id": 142, "title": "异世界的安泰全看社畜", "year": 2026, "country": "ANIME", "status": "Completed", "rate": 9.5, "comment": "Anime series is ok tho. Can fight with Manga", "link": null}, {"id": 143, "title": "对比的我和你", "year": 2026, "country": "Japan", "status": "Completed", "rate": 8.8, "comment": "Itz a good 青春 series", "link": null}, {"id": 144, "title": "The Prosecutor's Proposal (检察官视的题案)", "year": 2026, "country": "Korea", "status": "Completed", "rate": 8, "comment": "Not Bad to be said", "link": "https://kissasiantv.my/series/the-prosecutors-proposal-2026/"}, {"id": 145, "title": "The Edge of Horizon (地平线的边缘)", "year": 2026, "country": "Thai", "status": "Completed", "rate": 9.5, "comment": "Donno how to comment. But it is nice", "link": "https://dai.ly/xajtbey"}, {"id": 146, "title": "Duty First, Kiss Later (亲吻要在搜查后)", "year": 2026, "country": "Japan", "status": "Ongoing", "rate": null, "comment": null, "link": null}, {"id": 147, "title": "烟灰 Ash", "year": 2026, "country": "Hong Kong", "status": "Ongoing", "rate": null, "comment": null, "link": null}, {"id": 148, "title": "天生一对2026", "year": 2026, "country": "Thai", "status": "Ongoing", "rate": null, "comment": null, "link": null}, {"id": 149, "title": "整个世界，只有你连上了我", "year": 2026, "country": "Taiwan", "status": "Ongoing", "rate": 10, "comment": "整个还没有完，我就已经要给10分了！！", "link": null}, {"id": 150, "title": "别忘了你的仇人", "year": 2026, "country": "Korea", "status": "Pending", "rate": null, "comment": null, "link": null}], "movie": [{"id": 1, "title": "2gether: the Movie", "year": 2021, "country": "Thai", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 2, "title": "TharnType Season 2 Special: The Wedding Day.", "year": 2021, "country": "Thai", "status": "Completed", "rate": 9, "comment": "They Proposedddddd", "link": null}, {"id": 3, "title": "TharnType Special: Our Final Love", "year": 2020, "country": "Thai", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 4, "title": "Man Suang", "year": 2023, "country": "Thai", "status": "Completed", "rate": 7, "comment": "The graphic is ok.. but i dont understand", "link": null}, {"id": 5, "title": "Big Dragon the Movie", "year": 2023, "country": "Thai", "status": "Completed", "rate": 6, "comment": null, "link": null}, {"id": 6, "title": "No.1 for you", "year": 2023, "country": "Taiwan", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 7, "title": "Your Name Engraved Herein (刻在我心底的名字)", "year": 2020, "country": "Taiwan", "status": "Completed", "rate": 10, "comment": "Best Quote：\n1. 你喜欢女生就可以，我喜欢你男生就不行。你有多爱一点，我有少爱一点吗？\n2. Profiter du Moment (活在当下)", "link": null}, {"id": 8, "title": "Cherry Magic! Thirty Years if Virginity Can Make You a Wizard?!: The Movie", "year": 2022, "country": "Japan", "status": "Completed", "rate": 6, "comment": null, "link": null}, {"id": 9, "title": "What Did You Eat Yesterday?", "year": 2021, "country": "Taiwan", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 10, "title": "The Novelist: Playback", "year": 2021, "country": "Japan", "status": "Completed", "rate": 8, "comment": null, "link": null}, {"id": 11, "title": "His", "year": 2020, "country": "Japan", "status": "Completed", "rate": 5.5, "comment": null, "link": null}, {"id": 12, "title": "What Did You Eat Yesterday? SP", "year": 2020, "country": "Japan", "status": "Completed", "rate": 7.5, "comment": null, "link": null}], "books": [{"id": 1, "title": "大哥", "author": "Priest", "read": true, "rate": 8, "comment": null}, {"id": 2, "title": "The Bane Chronicles", "author": "Cassandra Clare", "read": true, "rate": 6.7, "comment": null}, {"id": 3, "title": "二哈和他的白猫师尊", "author": "肉包不吃肉", "read": true, "rate": 9.5, "comment": null}, {"id": 4, "title": "死亡万花筒", "author": null, "read": true, "rate": 8.7, "comment": "很恐怖，尤其是姐姐当鼓皮的"}, {"id": 5, "title": "Red White & Royal Blue", "author": "Casey McQuiston", "read": true, "rate": 8.8, "comment": "waiting for Movie Season2"}, {"id": 6, "title": "魔道祖师", "author": "墨香铜臭", "read": true, "rate": 9, "comment": null}, {"id": 7, "title": "江家的伊秀", "author": null, "read": true, "rate": 9.2, "comment": "和未来家公。有点。。。damnnnn"}, {"id": 8, "title": "某某", "author": "木苏里", "read": true, "rate": 7.6, "comment": null}, {"id": 9, "title": "AWM绝地求生", "author": "漫漫何其多", "read": true, "rate": 8, "comment": null}, {"id": 10, "title": "判官", "author": "木苏里", "read": true, "rate": 8.8, "comment": null}, {"id": 11, "title": "解药", "author": null, "read": false, "rate": null, "comment": null}, {"id": 12, "title": "过门", "author": null, "read": false, "rate": null, "comment": null}, {"id": 13, "title": "镇魂", "author": "Priest", "read": true, "rate": 9.7, "comment": "电视剧也不错。只是不喜欢ending"}]}
+</script>
+
+<script>
+(function(){
+  "use strict";
+
+  const seed = JSON.parse(document.getElementById('seed-data').textContent);
+  const STORAGE_KEY = 'cozy-corner-data-v1';
+
+  // ---------- storage ----------
+  // window.storage only exists inside Claude's own artifact preview.
+  // On a real host (GitHub Pages, Netlify, your own server, etc.) it's
+  // undefined, so we fall back to the browser's built-in localStorage —
+  // that's what actually makes edits stick across refreshes there.
+  const hasClaudeStorage = ()=> typeof window.storage !== 'undefined' && window.storage && typeof window.storage.get === 'function';
+
+  const Store = {
+    async get(key){
+      if (hasClaudeStorage()){
+        try{ return await window.storage.get(key); }catch(e){ return null; }
+      }
+      try{
+        const raw = localStorage.getItem(key);
+        return raw === null ? null : { key, value: raw };
+      }catch(e){ return null; } // e.g. private browsing with storage blocked
+    },
+    async set(key, value){
+      if (hasClaudeStorage()){
+        try{ return await window.storage.set(key, value); }catch(e){ return null; }
+      }
+      try{
+        localStorage.setItem(key, value);
+        return { key, value };
+      }catch(e){ return null; }
+    },
+    async delete(key){
+      if (hasClaudeStorage()){
+        try{ return await window.storage.delete(key); }catch(e){ return null; }
+      }
+      try{
+        localStorage.removeItem(key);
+        return { key, deleted: true };
+      }catch(e){ return null; }
+    },
+    async list(prefix){
+      if (hasClaudeStorage()){
+        try{ return await window.storage.list(prefix); }catch(e){ return null; }
+      }
+      try{
+        const keys = Object.keys(localStorage).filter(k => !prefix || k.startsWith(prefix));
+        return { keys };
+      }catch(e){ return null; }
+    }
+  };
+
+  const TAPE_COLORS = { series: 'var(--rose)', movie: 'var(--sky)', books: 'var(--sage)' };
+  const STATUS_OPTIONS = {
+    series: ['Ongoing','Pending','On Hold','Completed','Dropped'],
+    movie: ['Ongoing','Pending','On Hold','Completed','Dropped'],
+    books: ['Unread','Read']
+  };
+  // Lower number = shown first. Completed (and Read) sink to the bottom;
+  // everything still in progress or waiting rises to the top.
+  const STATUS_PRIORITY = { 'Ongoing':0, 'Pending':0, 'On Hold':0, 'Dropped':0, 'Completed':1, 'Unread':0, 'Read':1 };
+
+  let state = null;
+  let currentTab = 'series';
+  let editingKey = null;
+  const posterMemCache = new Map(); // "type-id" -> url string | null
+  let posterObserver = null;
+
+  // ---------- storage (persistent if available, else in-memory) ----------
+  async function loadState(){
+    try{
+      if (true){
+        const res = await Store.get(STORAGE_KEY);
+        if (res && res.value){
+          return JSON.parse(res.value);
+        }
+      }
+    }catch(e){ /* key not found or storage unavailable */ }
+    return JSON.parse(JSON.stringify(seed));
+  }
+
+  async function saveState(){
+    try{
+      if (true){
+        await Store.set(STORAGE_KEY, JSON.stringify(state));
+      }
+    }catch(e){ console.warn('Storage unavailable, changes kept in this session only.', e); }
+  }
+
+  function nextId(list){
+    return list.reduce((m,x)=>Math.max(m, x.id||0), 0) + 1;
+  }
+
+  // ---------- rendering ----------
+  function renderStats(){
+    const all = [...state.series, ...state.movie];
+    const totalItems = state.series.length + state.movie.length + state.books.length;
+    const completed = all.filter(x=>x.status==='Completed').length + state.books.filter(b=>b.read).length;
+    const rated = [...all.filter(x=>typeof x.rate==='number'), ...state.books.filter(b=>typeof b.rate==='number')];
+    const avg = rated.length ? (rated.reduce((s,x)=>s+x.rate,0)/rated.length) : 0;
+
+    const bar = document.getElementById('statsBar');
+    bar.innerHTML = `
+      <div class="stat-pill"><span class="num">${totalItems}</span><span class="lbl">Total entries</span></div>
+      <div class="stat-pill"><span class="num">${completed}</span><span class="lbl">Completed</span></div>
+      <div class="stat-pill"><span class="num">${rated.length ? avg.toFixed(1) : '–'}</span><span class="lbl">Avg rating</span></div>
+      <div class="stat-pill"><span class="num">${state.books.length}</span><span class="lbl">Books logged</span></div>
+    `;
+  }
+
+  function renderTabCounts(){
+    document.getElementById('count-series').textContent = state.series.length;
+    document.getElementById('count-movie').textContent = state.movie.length;
+    document.getElementById('count-books').textContent = state.books.length;
+  }
+
+  function populateStatusFilter(){
+    const sel = document.getElementById('statusFilter');
+    const opts = currentTab === 'books' ? ['All','Read','Unread'] : ['All', ...STATUS_OPTIONS[currentTab]];
+    sel.innerHTML = opts.map(o=>`<option value="${o}">${o==='All' ? 'All statuses' : o}</option>`).join('');
+  }
+
+  function starString(rate){
+    if (typeof rate !== 'number') return '';
+    const filled = Math.round(rate/2);
+    return '★★★★★☆☆☆☆☆'.slice(5-filled, 10-filled);
+  }
+
+  function escapeHtml(str){
+    if (str === null || str === undefined) return '';
+    return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function normalizeUrl(raw){
+    const val = (raw || '').trim();
+    if (!val) return '';
+    if (/^https?:\/\//i.test(val)) return val;
+    return 'https://' + val;
+  }
+
+  function statusClass(label){ return String(label).replace(/\s+/g,''); }
+
+  const PLACEHOLDER_ICONS = {
+    series: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="#fff" stroke-width="1.8"/><path d="M8 3v2M16 3v2" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    movie: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 8h16M8 4v4M14 4v4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><rect x="3" y="4" width="18" height="16" rx="2" stroke="#fff" stroke-width="1.8"/></svg>',
+    books: '<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 016.5 17H20V4H6.5A2.5 2.5 0 004 6.5v13z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/><path d="M4 19.5A2.5 2.5 0 016.5 22H20" stroke="#fff" stroke-width="1.8"/></svg>'
+  };
+  const PLACEHOLDER_GRADIENTS = {
+    series: ['#F0B7C4','#F6D9A8'],
+    movie: ['#A9C7E3','#D7C9EE'],
+    books: ['#B7D0A6','#F0E0AE']
+  };
+
+  function posterPlaceholderHtml(type){
+    const [a,b] = PLACEHOLDER_GRADIENTS[type];
+    return `<div class="poster-placeholder" style="--ph-a:${a};--ph-b:${b}">${PLACEHOLDER_ICONS[type]}</div>`;
+  }
+
+  function cardHtml(item, type){
+    const isBook = type === 'books';
+    const statusLabel = isBook ? (item.read ? 'Read' : 'Unread') : (item.status || 'Pending');
+    const hasRate = typeof item.rate === 'number';
+    const metaBits = isBook
+      ? (item.author ? `<span>✍️ ${escapeHtml(item.author)}</span>` : '')
+      : `${item.year ? `<span>📅 ${escapeHtml(item.year)}</span>` : ''}${item.country ? `<span>🌏 ${escapeHtml(item.country)}</span>` : ''}`;
+    const posterKey = `${type}-${item.id}`;
+
+    return `
+      <div class="card" data-type="${type}" data-id="${item.id}">
+        <div class="tape" style="--tape-color:${TAPE_COLORS[type]}"></div>
+        <div class="card-body">
+          <div class="poster-wrap shimmer" data-poster-key="${posterKey}">
+            ${posterPlaceholderHtml(type)}
+          </div>
+          <div class="card-main">
+            <div class="card-top">
+              <h3>${escapeHtml(item.title)}</h3>
+              <span class="badge ${statusClass(statusLabel)}">${escapeHtml(statusLabel)}</span>
+            </div>
+            <div class="meta-row">${metaBits}</div>
+            ${hasRate
+              ? `<div class="rate-row"><span class="star">${starString(item.rate)}</span><span class="rate-num">${item.rate}</span><span class="rate-max">/10</span></div>`
+              : `<div class="rate-row empty">not rated yet</div>`}
+          </div>
+        </div>
+        <p class="comment ${item.comment ? '' : 'empty'}">${item.comment ? escapeHtml(item.comment) : 'No notes yet — click to add your thoughts.'}</p>
+        <div class="card-foot">
+          ${(!isBook && item.link) ? `<a class="link-chip" href="${escapeHtml(normalizeUrl(item.link))}" target="_blank" rel="noopener" onclick="event.stopPropagation()">▶ Watch link</a>` : '<span></span>'}
+          <span class="edit-hint">tap to edit</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function getFiltered(){
+    const list = state[currentTab];
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    const statusVal = document.getElementById('statusFilter').value;
+    const sortVal = document.getElementById('sortSelect').value;
+
+    let filtered = list.filter(item=>{
+      const hay = [item.title, item.country, item.author, item.comment].filter(Boolean).join(' ').toLowerCase();
+      const matchesQ = !q || hay.includes(q);
+      let matchesStatus = true;
+      if (statusVal && statusVal !== 'All'){
+        if (currentTab === 'books'){
+          matchesStatus = (statusVal === 'Read') === !!item.read;
+        } else {
+          matchesStatus = item.status === statusVal;
+        }
+      }
+      return matchesQ && matchesStatus;
+    });
+
+    function statusGroup(item){
+      const label = currentTab === 'books' ? (item.read ? 'Read' : 'Unread') : (item.status || 'Pending');
+      return STATUS_PRIORITY[label] ?? 0;
+    }
+
+    filtered.sort((a,b)=>{
+      // Completed / Read always sink below everything still in progress,
+      // regardless of the chosen sort — that sort just orders within each group.
+      const groupDiff = statusGroup(a) - statusGroup(b);
+      if (groupDiff !== 0) return groupDiff;
+
+      switch(sortVal){
+        case 'titleAsc': return (a.title||'').localeCompare(b.title||'');
+        case 'rateDesc': return (b.rate ?? -1) - (a.rate ?? -1);
+        case 'rateAsc': return (a.rate ?? 99) - (b.rate ?? 99);
+        case 'yearDesc': return (b.year||0) - (a.year||0);
+        case 'yearAsc': return (a.year||0) - (b.year||0);
+        default: return (a.id||0) - (b.id||0);
+      }
+    });
+    return filtered;
+  }
+
+  // ---------- posters ----------
+  // Priority: TMDB (real posters, needs a free key) → Open Library (books, keyless)
+  // → Wikipedia (keyless fallback for everything).
+  const DEFAULT_TMDB_KEY = 'd9cd14fcabcd402b5c3589c420947e1f';
+  let tmdbKeyCache; // undefined = not checked yet, null = confirmed absent, string = the key
+
+  async function getTmdbKey(){
+    if (tmdbKeyCache !== undefined) return tmdbKeyCache;
+    try{
+      if (true){
+        const res = await Store.get('tmdb-api-key');
+        if (res && res.value){
+          tmdbKeyCache = res.value;
+          return tmdbKeyCache;
+        }
+        if (res && res.value === ''){
+          // explicitly cleared by the user — don't re-seed the default
+          tmdbKeyCache = null;
+          return null;
+        }
+      }
+    }catch(e){ /* key was never set on this device */ }
+    // No key saved yet on this device — seed it with the default so
+    // posters work right away without any manual setup.
+    tmdbKeyCache = DEFAULT_TMDB_KEY;
+    try{
+      if (true){
+        await Store.set('tmdb-api-key', DEFAULT_TMDB_KEY);
+      }
+    }catch(e){ /* will just re-seed next load */ }
+    return tmdbKeyCache;
+  }
+
+  async function fetchWikipediaPoster(item, type){
+    if (!item.title) return null;
+    const hint = type === 'books' ? 'novel' : (type === 'movie' ? 'film' : 'drama');
+    const query = encodeURIComponent(`${item.title} ${hint}`);
+    const url = `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${query}&gsrlimit=1&prop=pageimages&piprop=thumbnail&pithumbsize=320&format=json&origin=*`;
+    try{
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const data = await res.json();
+      const pages = data && data.query && data.query.pages;
+      if (!pages) return null;
+      const first = Object.values(pages)[0];
+      return (first && first.thumbnail && first.thumbnail.source) || null;
+    }catch(e){
+      return null;
+    }
+  }
+
+  async function fetchOpenLibraryPoster(item){
+    if (!item.title) return null;
+    let url = `https://openlibrary.org/search.json?title=${encodeURIComponent(item.title)}`;
+    if (item.author) url += `&author=${encodeURIComponent(item.author)}`;
+    url += '&limit=1&fields=cover_i';
+    try{
+      const res = await fetch(url);
+      if (!res.ok) return null;
+      const data = await res.json();
+      const doc = data && data.docs && data.docs[0];
+      if (doc && doc.cover_i){
+        return `https://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg`;
+      }
+      return null;
+    }catch(e){
+      return null;
+    }
+  }
+
+  async function fetchTmdbPoster(item, type, apiKey){
+    if (!item.title) return null;
+    const searchType = type === 'movie' ? 'movie' : 'tv';
+    let url = `https://api.themoviedb.org/3/search/${searchType}?api_key=${encodeURIComponent(apiKey)}&query=${encodeURIComponent(item.title)}`;
+    if (item.year && typeof item.year === 'number'){
+      url += type === 'movie' ? `&year=${item.year}` : `&first_air_date_year=${item.year}`;
+    }
+    try{
+      const res = await fetch(url);
+      if (!res.ok) return null; // e.g. 401 = bad key
+      const data = await res.json();
+      const first = data && data.results && data.results[0];
+      if (first && first.poster_path){
+        return `https://image.tmdb.org/t/p/w342${first.poster_path}`;
+      }
+      return null;
+    }catch(e){
+      return null;
+    }
+  }
+
+  async function fetchPosterUrl(item, type){
+    if (type === 'books'){
+      return (await fetchOpenLibraryPoster(item)) || (await fetchWikipediaPoster(item, type));
+    }
+    const apiKey = await getTmdbKey();
+    if (apiKey){
+      const tmdbUrl = await fetchTmdbPoster(item, type, apiKey);
+      if (tmdbUrl) return tmdbUrl;
+    }
+    return await fetchWikipediaPoster(item, type);
+  }
+
+  async function getCachedPosterUrl(key){
+    try{
+      if (true){
+        const res = await Store.get('poster:'+key);
+        if (res && res.value !== undefined && res.value !== null){
+          return res.value === '' ? null : res.value;
+        }
+      }
+    }catch(e){ /* not cached yet */ }
+    return undefined;
+  }
+
+  async function setCachedPosterUrl(key, url){
+    try{
+      if (true){
+        await Store.set('poster:'+key, url || '');
+      }
+    }catch(e){ /* storage unavailable, session-only cache still works */ }
+  }
+
+  async function loadPoster(wrapEl){
+    const key = wrapEl.dataset.posterKey;
+    const dashIdx = key.lastIndexOf('-');
+    const type = key.slice(0, dashIdx);
+    const id = parseInt(key.slice(dashIdx+1), 10);
+    const item = state[type] && state[type].find(x=>x.id===id);
+    if (!item) return;
+
+    let url = posterMemCache.get(key);
+    if (url === undefined){
+      url = await getCachedPosterUrl(key);
+      if (url === undefined){
+        url = await fetchPosterUrl(item, type);
+        await setCachedPosterUrl(key, url);
+      }
+      posterMemCache.set(key, url);
+    }
+
+    if (!wrapEl.isConnected) return; // card may have scrolled out / re-rendered by now
+    wrapEl.classList.remove('shimmer');
+    if (url){
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = '';
+      img.loading = 'lazy';
+      img.onerror = ()=>{ /* leave the illustrated placeholder in place */ };
+      wrapEl.innerHTML = '';
+      wrapEl.appendChild(img);
+      requestAnimationFrame(()=> img.classList.add('loaded'));
+    }
+  }
+
+  function observePosters(){
+    if (posterObserver) posterObserver.disconnect();
+    posterObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if (entry.isIntersecting){
+          posterObserver.unobserve(entry.target);
+          loadPoster(entry.target);
+        }
+      });
+    }, { rootMargin: '250px' });
+    document.querySelectorAll('.poster-wrap').forEach(el => posterObserver.observe(el));
+  }
+
+  function renderGrid(){
+    const grid = document.getElementById('grid');
+    const empty = document.getElementById('emptyState');
+    const items = getFiltered();
+    if (!items.length){
+      grid.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    grid.innerHTML = items.map(item => cardHtml(item, currentTab)).join('');
+    grid.querySelectorAll('.card').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        openModal(currentTab, parseInt(card.dataset.id,10));
+      });
+    });
+    observePosters();
+  }
+
+  function renderAll(){
+    renderStats();
+    renderTabCounts();
+    renderGrid();
+  }
+
+  // ---------- tabs ----------
+  document.getElementById('tabs').addEventListener('click', (e)=>{
+    const btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    currentTab = btn.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b===btn));
+    populateStatusFilter();
+    document.getElementById('searchInput').value = '';
+    renderModalFieldsVisibility();
+    renderGrid();
+  });
+
+  function renderModalFieldsVisibility(){
+    const isBook = currentTab === 'books';
+    document.getElementById('label-year').textContent = isBook ? 'Author' : 'Year';
+    document.getElementById('label-country').textContent = isBook ? '' : 'Country';
+    document.getElementById('field-yearcountry').querySelectorAll('.field')[1].style.display = isBook ? 'none' : 'block';
+    document.getElementById('field-link').style.display = isBook ? 'none' : 'block';
+  }
+
+  // ---------- controls ----------
+  document.getElementById('searchInput').addEventListener('input', renderGrid);
+  document.getElementById('statusFilter').addEventListener('change', renderGrid);
+  document.getElementById('sortSelect').addEventListener('change', renderGrid);
+
+  // ---------- modal ----------
+  const overlay = document.getElementById('modalOverlay');
+  const form = document.getElementById('entryForm');
+  const linkOpenBtn = document.getElementById('linkOpenBtn');
+  const linkInput = document.getElementById('f-link');
+
+  linkOpenBtn.addEventListener('click', ()=>{
+    const url = normalizeUrl(linkInput.value);
+    if (url) window.open(url, '_blank', 'noopener');
+  });
+  function refreshLinkOpenBtn(){
+    linkOpenBtn.disabled = !linkInput.value.trim();
+  }
+  linkInput.addEventListener('input', refreshLinkOpenBtn);
+
+  function openModal(type, id){
+    editingKey = { type, id };
+    const isNew = id === null;
+    const item = isNew ? null : state[type].find(x=>x.id===id);
+
+    document.getElementById('modalTitle').textContent = isNew ? 'Add a new entry' : 'Edit entry';
+    document.getElementById('modalSub').textContent = isNew
+      ? `Adding to ${type === 'books' ? 'Books' : type === 'movie' ? 'Movies' : 'Series'}`
+      : `${type === 'books' ? 'Book' : type === 'movie' ? 'Movie' : 'Series'} entry`;
+
+    document.getElementById('f-id').value = isNew ? '' : id;
+    document.getElementById('f-type').value = type;
+    document.getElementById('f-title').value = item ? item.title : '';
+    document.getElementById('f-year').value = item ? (type==='books' ? (item.author||'') : (item.year||'')) : '';
+    document.getElementById('f-country').value = item ? (item.country||'') : '';
+    document.getElementById('f-rate').value = item && typeof item.rate==='number' ? item.rate : '';
+    document.getElementById('f-comment').value = item ? (item.comment||'') : '';
+    document.getElementById('f-link').value = item ? (item.link||'') : '';
+
+    const statusSel = document.getElementById('f-status');
+    const opts = STATUS_OPTIONS[type];
+    statusSel.innerHTML = opts.map(o=>`<option value="${o}">${o}</option>`).join('');
+    if (item){
+      statusSel.value = type==='books' ? (item.read ? 'Read' : 'Unread') : (item.status || opts[0]);
+    } else {
+      statusSel.value = opts[0];
+    }
+
+    renderModalFieldsVisibility();
+    document.getElementById('deleteBtn').style.display = isNew ? 'none' : 'block';
+    overlay.classList.add('open');
+  }
+
+  function closeModal(){
+    overlay.classList.remove('open');
+    editingKey = null;
+    form.reset();
+  }
+
+  document.getElementById('addBtn').addEventListener('click', ()=> openModal(currentTab, null));
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('cancelBtn').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e)=>{ if (e.target === overlay) closeModal(); });
+
+  document.getElementById('deleteBtn').addEventListener('click', async ()=>{
+    if (!editingKey || editingKey.id === null) return;
+    const { type, id } = editingKey;
+    if (!confirm('Delete this entry? This can\'t be undone.')) return;
+    state[type] = state[type].filter(x=>x.id!==id);
+    await saveState();
+    renderAll();
+    closeModal();
+  });
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const type = document.getElementById('f-type').value;
+    const idVal = document.getElementById('f-id').value;
+    const title = document.getElementById('f-title').value.trim();
+    if (!title) return;
+
+    const rateRaw = document.getElementById('f-rate').value;
+    const rate = rateRaw === '' ? null : Math.max(0, Math.min(10, parseFloat(rateRaw)));
+    const comment = document.getElementById('f-comment').value.trim();
+    const statusVal = document.getElementById('f-status').value;
+
+    if (type === 'books'){
+      const author = document.getElementById('f-year').value.trim();
+      const payload = { title, author, read: statusVal==='Read', rate, comment };
+      if (idVal === ''){
+        payload.id = nextId(state.books);
+        state.books.push(payload);
+      } else {
+        const idx = state.books.findIndex(x=>x.id===parseInt(idVal,10));
+        state.books[idx] = { ...state.books[idx], ...payload };
+      }
+    } else {
+      const year = document.getElementById('f-year').value.trim();
+      const country = document.getElementById('f-country').value.trim();
+      const link = normalizeUrl(document.getElementById('f-link').value.trim());
+      const payload = { title, year: year ? (isNaN(year) ? year : parseInt(year,10)) : null, country, status: statusVal, rate, comment, link };
+      if (idVal === ''){
+        payload.id = nextId(state[type]);
+        state[type].push(payload);
+      } else {
+        const idx = state[type].findIndex(x=>x.id===parseInt(idVal,10));
+        state[type][idx] = { ...state[type][idx], ...payload };
+      }
+    }
+
+    await saveState();
+    renderAll();
+    closeModal();
+  });
+
+  // ---------- poster settings ----------
+  const settingsOverlay = document.getElementById('settingsOverlay');
+  const posterSettingsBtn = document.getElementById('posterSettingsBtn');
+  const posterStatusLabel = document.getElementById('posterStatusLabel');
+  const tmdbKeyInput = document.getElementById('tmdbKeyInput');
+
+  async function updatePosterStatusLabel(){
+    const key = await getTmdbKey();
+    posterStatusLabel.textContent = key ? 'Posters: TMDB' : 'Posters';
+    posterSettingsBtn.classList.toggle('connected', !!key);
+  }
+
+  async function clearPosterCache(){
+    posterMemCache.clear();
+    try{
+      const listing = await Store.list('poster:');
+      const keys = (listing && listing.keys) || [];
+      for (const k of keys){
+        await Store.delete(k);
+      }
+    }catch(e){ /* nothing cached yet, or storage unavailable */ }
+  }
+
+  function openSettingsModal(){
+    tmdbKeyInput.value = tmdbKeyCache || '';
+    settingsOverlay.classList.add('open');
+  }
+  function closeSettingsModal(){ settingsOverlay.classList.remove('open'); }
+
+  posterSettingsBtn.addEventListener('click', openSettingsModal);
+  document.getElementById('settingsClose').addEventListener('click', closeSettingsModal);
+  document.getElementById('settingsCancelBtn').addEventListener('click', closeSettingsModal);
+  settingsOverlay.addEventListener('click', (e)=>{ if (e.target === settingsOverlay) closeSettingsModal(); });
+
+  document.getElementById('saveKeyBtn').addEventListener('click', async ()=>{
+    const val = tmdbKeyInput.value.trim();
+    if (!val){ closeSettingsModal(); return; }
+    tmdbKeyCache = val;
+    try{
+      if (true){
+        await Store.set('tmdb-api-key', val);
+      }
+    }catch(e){ /* key kept in-memory for this session only */ }
+    await clearPosterCache();
+    await updatePosterStatusLabel();
+    closeSettingsModal();
+    renderGrid();
+  });
+
+  document.getElementById('clearKeyBtn').addEventListener('click', async ()=>{
+    tmdbKeyCache = null;
+    tmdbKeyInput.value = '';
+    try{
+      if (true){
+        // store an explicit empty marker so the default key isn't re-seeded on next load
+        await Store.set('tmdb-api-key', '');
+      }
+    }catch(e){ /* nothing to remove */ }
+    await clearPosterCache();
+    await updatePosterStatusLabel();
+    closeSettingsModal();
+    renderGrid();
+  });
+
+  // ---------- init ----------
+  (async function init(){
+    state = await loadState();
+    document.querySelector('.tab-btn[data-tab="series"]').classList.add('active');
+    populateStatusFilter();
+    renderModalFieldsVisibility();
+    await updatePosterStatusLabel();
+    renderAll();
+  })();
+
+})();
+</script>
+</body>
+</html>
